@@ -1,7 +1,19 @@
 var express =   require("express");
 var multer  =   require('multer');
 var app         =   express();
-var storage =   multer.diskStorage({
+
+
+function mimeTypesFilter(mimeTypes) {
+  return function(req, file, cb) {
+    if (mimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('File mime type error'));
+    }
+  };
+}
+
+const storage =   multer.diskStorage({
 	destination: function (req, file, callback) {
 		callback(null, './uploads');
 	},
@@ -9,7 +21,13 @@ var storage =   multer.diskStorage({
 		callback(null, file.fieldname);
 	}
 });
-var upload = multer({ storage : storage}).any();
+
+const mimeTypes = ['audio/mp3', 'audio/acc', 'audio/mpeg', 'audio/wav'];
+
+const upload = multer({
+	storage : storage,
+  fileFilter: mimeTypesFilter(mimeTypes)
+}).any();
 
 app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -17,16 +35,15 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.get('/',function(req,res){
+app.get('/',function(req, res){
 	res.sendFile(__dirname + "/index.html");
 });
 
-app.post('/api/music',function(req,res){
+app.post('/api/music',function(req, res){
 	upload(req,res,function(err) {
 		if(err) {
-			return res.end(`Error uploading file. ${err}`);
+			return res.end(`Error uploading file.`);
 		}
-		console.log(req, res);
 		res.end("File is uploaded");
 	});
 });
