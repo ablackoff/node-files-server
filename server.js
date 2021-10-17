@@ -1,7 +1,9 @@
-var express =   require("express");
-var multer  =   require('multer');
-var app         =   express();
+import express from 'express';
+import multer  from 'multer';
+import path from 'path';
 
+const __dirname = path.resolve();
+const app = express();
 
 function mimeTypesFilter(mimeTypes) {
   return function(req, file, cb) {
@@ -35,11 +37,11 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.get('/',function(req, res){
+app.get('/',function(req, res) {
 	res.sendFile(__dirname + "/index.html");
 });
 
-app.post('/api/music',function(req, res){
+app.post('/api/music',function(req, res) {
 	upload(req,res,function(err) {
 		if(err) {
 			return res.end(`Error uploading file.`);
@@ -48,7 +50,7 @@ app.post('/api/music',function(req, res){
 	});
 });
 
-app.listen(9000,function(){
+app.listen(9000,function() {
 	console.log(
 		"Working on port 9000\n" +
 		"Click here to open the link: http://localhost:9000"
