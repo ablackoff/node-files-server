@@ -1,0 +1,21 @@
+{
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "requireConfigFile": false
+  },
+  "ignorePatterns": ["node_modules/"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:sonarjs/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "commonjs": false,
+    "node": true,
+    "browser": false,
+    "es6": true,
+    "jest": true
+  }
+}
