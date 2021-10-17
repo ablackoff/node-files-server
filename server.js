@@ -49,5 +49,8 @@ app.post('/api/music',function(req, res){
 });
 
 app.listen(9000,function(){
-	console.log("Working on port 9000");
+	console.log(
+		"Working on port 9000\n" +
+		"Click here to open the link: http://localhost:9000"
+	);
 });
